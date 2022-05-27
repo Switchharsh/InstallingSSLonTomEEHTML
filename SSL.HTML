@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+    <div style="background-color: lavender;font-family:Arial, Helvetica, sans-serif ;
+    ">
+<div class="jumbotron text-center">
+    <h2>Installing SSL certificate on TomEE/ Tomcat using certificates and key file</h2>
+</div>
+<div style="margin-left: 8%; margin-right: 2%;" class="well">
+    <p>In order to install SSL certificate on TomEE or Tomcat it is essential that you import a key pair to the Java key store instead of just the certificate.
+    </p>
+    <br>
+    <p>
+    The process for doing it over a UI using the <a href="https://keystore-explorer.org/" target="_blank">Keystore Explorer</a> (open source GUI replacement for the Java command-line utilities keytool and jarsigner)
+    follow below steps:
+    </p>
+    <ul>
+        <li>
+        
+            Open Keystore Explorer and make a new Java key store for the SSL certificate installation. If you have to update the SSL certificate, open the pre-existing Java Key Store.
+            Location for which can be found in the SSL connector tag of server.xml file of TommEE or Tomcat present in the <b>conf</b> folder.
+
+    </li>
+    <br>
+    <li>
+        The default password of JKS is "changeit". Once you are into the JKS, import a <b>keypair</b> which consists both
+        the private key and the public key. The private key is the .key file and the public key is the certificate file.
+    </li>
+    <br>
+    <li>
+        Importing keypair gives options and based on the type of key, relevant key pair type should be imported. If the private key is unprotected by a password, uncheck the Encrypted Private Key option.
+    </li>
+    <br>
+    <li>
+        Once the key pair and the base certificate is imported, edit the certificate chain such that the relevant certificate chain is formed. Editing certificate chain means putting various certificates in the right
+        heirarchy starting with a root certificate on top(last to be added to the chain) and so on.
+
+    </li>
+    <br>
+<li>
+    Once the certificate chain is correctly formed, give the certificate chain an alias to use in config and save the changes in the Java Key Store and exit KeyStore Explorer.
+</li>
+<br>
+<li>
+    Now go to server.xml mentioned earlier and if updated old JKS then update the alias otherwise if made  a new JKS store then in the connector tag provide the
+    proper location of the JKS along with the JKS password, if you did not specifically set a password, the default password is <b>changeit</b>. Then provide the proper alias and restart TomEE/Tomcat service to check if the certificate was installed properly.
+</li>
+    </ul>
+    
+    <hr>
+    <div class="alert alert-info">
+    <p>
+        <a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html" target="_blank" class="alert-link"><b>Documentation</b></a> for changes in the server.xml file of TomEE or Tomcat.
+    </p>
+</div>
+   </div>
+</div>
+</html>
